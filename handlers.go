@@ -7,6 +7,8 @@ import (
 
 	"github.com/appventure-nush/appventure-website/api/content"
 	"github.com/julienschmidt/httprouter"
+  "path/filepath"
+  "mime"
 )
 
 type Handlers struct {
@@ -116,6 +118,23 @@ func (h *Handlers) project(w http.ResponseWriter, rq *http.Request, ps httproute
 		Item: project,
 		Items: screenshots,
 	})
+}
+
+// Static
+func (h *Handlers) static(w http.ResponseWriter, rq *http.Request, ps httprouter.Params) {
+  fp := ps.ByName("filepath");
+	data, err := h.api.Static(fp)
+	if err == ErrorNotFound {
+		log.Println(err)
+		return
+	} else if err != nil {
+		log.Println(err)
+		return
+	}
+  ext := filepath.Ext(fp)
+  mimeType := mime.TypeByExtension(ext)
+  w.Header().Set("Content-Type", mimeType)
+  w.Write(data)
 }
 
 // System

@@ -24,6 +24,7 @@ func NewRouter(h *Handlers, assets string) http.Handler {
 	router.GET("/apps/:slug", h.app)
 	router.GET("/projects", h.projects)
 	router.GET("/projects/:slug", h.project)
+  router.GET("/static/*filepath", h.static)
 
 	// Assets
 	router.ServeFiles("/assets/*filepath", http.Dir(assets))

@@ -8,6 +8,8 @@ import (
   "time"
 
   "github.com/appventure-nush/appventure-website/api/content"
+  "io/ioutil"
+  "log"
 )
 
 type API struct {
@@ -58,6 +60,16 @@ func (api *API) Project(slug string) (content.Project, error) {
     return content.Project{}, err
   }
   return data["data"][0], err
+}
+
+func (api *API) Static(filepath string) ([]byte, error) {
+  log.Println("Fetching static asset:", filepath)
+  data, err := api.getBytes(filepath)
+  if err != nil {
+    log.Println("Error fetching static asset:", err)
+    return []byte{}, err
+  }
+  return data, err
 }
 
 func (api *API) ScreenshotByReference(ref string) (content.Screenshot, error) {
@@ -113,6 +125,23 @@ func (api *API) get(path string, v interface{}) error {
   }
   defer resp.Body.Close()
   return json.NewDecoder(resp.Body).Decode(v)
+}
+
+func (api *API) getBytes(path string) ([]byte, error) {
+  resp, err := api.http.Get(api.host + path)
+  if err != nil {
+    return []byte{}, err
+  }
+  if resp.StatusCode == http.StatusNotFound {
+    return []byte{}, ErrorNotFound
+  } else if resp.StatusCode == http.StatusInternalServerError {
+    return []byte{}, ErrorNotFound
+  } else if resp.StatusCode != http.StatusOK {
+    return []byte{}, errors.New(resp.Status)
+  }
+  defer resp.Body.Close()
+  body, err := ioutil.ReadAll(resp.Body)
+  return body, err;
 }
 
 func NewAPI(host string) *API {

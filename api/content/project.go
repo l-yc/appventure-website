@@ -13,13 +13,14 @@ import (
 type Project struct {
   item.Item
 
-  Name    string   `json:"name"`
-  Authors []string `json:"authors"`
-  Year             []int    `json:"year"`
-  Platforms        []string `json:"platforms"`
-  Summary string   `json:"Summary"`
-  Screenshots      []string `json:"screenshots"`
-  Content string   `json:"content"`
+  Name          string   `json:"name"`
+  Authors       []string `json:"authors"`
+  Year          []int    `json:"year"`
+  Platforms     []string `json:"platforms"`
+  Summary       string   `json:"Summary"`
+  Screenshots   []string `json:"screenshots"`
+  Content       string   `json:"content"`
+  Demo          string   `json:"demo"`
 }
 
 var ProjectYear = map[string]string{
@@ -88,6 +89,12 @@ func (p *Project) MarshalEditor() ([]byte, error) {
         `{{ .hint }} "{{ .description }}"`,
       ),
     },
+		editor.Field{
+			View: editor.File("Demo", p, map[string]string{
+				"label":       "Demo",
+				"placeholder": "Upload your project live demo",
+			}),
+		},
   )
 
   if err != nil {

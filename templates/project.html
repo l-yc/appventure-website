@@ -1,60 +1,65 @@
-{{ template "header.html" . }}
-
-{{ $screenshots := .Items }}
-{{ with .Item }}
+{{ template "header.html" . }} {{ $screenshots := .Items }} {{ with .Item }}
 <main class="page">
-	<header>
-		<h1>{{ .Name }}</h1>
-		<p>
-			{{ range .Platforms }}#{{ . }} {{ end }}{{ range .Year }}#year-{{ . }} {{ end }}
-		</p>
-		<p class="authors">
-			{{ andify .Authors }}
-		</p>
-	</header>
-	<div class="content">
-		{{ html .Content }}
-	</div>
-	<div class="carousel fullscreen" data-start="0">
-		<ul class="carousel-items">
-			{{ range $i, $screenshot := $screenshots }}
-			<li class="carousel-item{{ if eq $i 0 }} active{{ end }}" data-type="{{ .Type }}" data-href='{{ size "x1024" .Image }}'>
-				<img title="{{ .Description }}" alt="{{ .Description }}" src='{{ size "x360" .Image }}' />
-			</li>
-			{{ end }}
-		</ul>
-		<div class="carousel-badges">
-			<ul class="carousel-badges-bar">
-				{{ range $i, $screenshot := $screenshots }}
-				<a href="#" class="carousel-badge{{ if eq $i 0 }} active{{ end }}" data-index="{{ $i }}"></a>
-				{{ end }}
-			</ul>
-		</div>
-		<div class="carousel-overlay">
-			<a href="#" class="button previous" data-index="-1"><i class="icon-navigate_before"></i></a>
-			<a href="#" class="button next" data-index="+1"><i class="icon-navigate_next"></i></a>
-		</div>
-	</div>
+  <header>
+    <h1>{{ .Name }}</h1>
+    <p>
+      {{ range .Platforms }}#{{ . }} {{ end }}{{ range .Year }}#year-{{ . }} {{ end }}
+    </p>
+    <p class="authors">
+      {{ andify .Authors }}
+    </p>
+  </header>
+  <div class="content">
+    {{ html .Content }}
+  </div>
+  {{ if .Demo }}
+  <a href="/static{{ .Demo }}" class="link" id="demo">
+    <i class="icon-play3"></i>
+    <span>Live Demo</span>
+  </a>
+  {{ end }}
+  <div class="carousel fullscreen" data-start="0">
+    <ul class="carousel-items">
+      {{ range $i, $screenshot := $screenshots }}
+      <li class="carousel-item{{ if eq $i 0 }} active{{ end }}" data-type="{{ .Type }}" data-href='{{ size "x1024" .Image }}'>
+        <img title="{{ .Description }}" alt="{{ .Description }}" src='{{ size "x360" .Image }}' />
+      </li>
+      {{ end }}
+    </ul>
+    <div class="carousel-badges">
+      <ul class="carousel-badges-bar">
+        {{ range $i, $screenshot := $screenshots }}
+        <a href="#" class="carousel-badge{{ if eq $i 0 }} active{{ end }}" data-index="{{ $i }}"></a>
+        {{ end }}
+      </ul>
+    </div>
+    <div class="carousel-overlay">
+      <a href="#" class="button previous" data-index="-1"><i class="icon-navigate_before"></i></a>
+      <a href="#" class="button next" data-index="+1"><i class="icon-navigate_next"></i></a>
+    </div>
+  </div>
 </main>
 <script src="/assets/js/carousel.js"></script>
 <script>
-	document.addEventListener("DOMContentLoaded", function() {
-		var c = new Carousel(".carousel");
-		c.autoplay();
-	});
+  document.addEventListener("DOMContentLoaded", function() {
+    var c = new Carousel(".carousel");
+    c.autoplay();
+  });
 </script>
 {{/*
 <script src="/assets/js/popup.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     var download = document.querySelector("#download");
     var downloadurl = download.href;
     download.href = "#java";
-    var popup = new Popup("java", '<div class="text"><h1>Requires Java</h1><p>Java is required to run this application. If the application does not run, <a href="https://www.java.com/verify/">verify that java is installed</a>. </p><p><a class="btn" href="' + downloadurl + '">Continue downloading JAR</a> <a class="btn light" href="https://www.java.com/download/">Get Java</a></p></div>', function () {
-    });
+    var popup = new Popup(
+      "java",
+      '<div class="text"><h1>Requires Java</h1><p>Java is required to run this application. If the application does not run, <a href="https://www.java.com/verify/">verify that java is installed</a>. </p><p><a class="btn" href="' +
+        downloadurl +
+        '">Continue downloading JAR</a> <a class="btn light" href="https://www.java.com/download/">Get Java</a></p></div>',
+      function() {}
+    );
   });
 </script>
-*/}}
-{{ end }}
-
-{{ template "footer.html" . }}
+*/}} {{ end }} {{ template "footer.html" . }}

@@ -68,17 +68,17 @@ FilterBar.prototype._updateFilter = function() {
   this.filter.update(filter);
 };
 
-document.onclick = function(){
-  if(opened){
+document.onclick = function() {
+  if (opened) {
     var filterbar = document.querySelector("div.filterbar");
     var groups = filterbar.querySelectorAll(".group");
     for (var j = 0; j < groups.length; j++) {
-      if(groups[j].classList.contains("opened")){
+      if (groups[j].classList.contains("opened")) {
         groups[j].classList.remove("opened");
         opened = false;
       }
     }
-  }else{
+  } else {
     opened = true;
   }
 };

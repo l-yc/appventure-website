@@ -1,12 +1,13 @@
 main {
-	padding: 0 2rem;
-	margin-bottom: 6rem !important;
-	@include paragraphing(main);
-	min-height: 60vh;
+  padding: 0 2rem;
+  margin-bottom: 6rem !important;
+  @include paragraphing(main);
+  min-height: 60vh;
 
-	h1, h2 {
-		margin-top: 4rem;
-	}
+  h1,
+  h2 {
+    margin-top: 4rem;
+  }
 
   header {
     text-align: center;

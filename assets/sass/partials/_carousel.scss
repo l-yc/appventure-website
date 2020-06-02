@@ -41,12 +41,12 @@ $carousel-types: (
       $bottom: map-get($spec, bottom);
       $ratio: map-get($spec, ratio);
       @if $type != "raw" {
-        background-image: url("/assets/images/" + $type + ".svg");
+        background-image: url("/assets/images/"+$type+".svg");
       }
       font-size: $height;
       height: 1em;
       @media screen and (max-width: 480px) {
-        font-size: $height*0.666;
+        font-size: $height * 0.666;
       }
 
       & > * {
@@ -55,7 +55,7 @@ $carousel-types: (
         width: 1em * (1 - $top - $bottom) * $ratio;
         position: absolute;
         left: 50%;
-        margin-left: - 0.5 * 1em * (1 - $top - $bottom) * $ratio;
+        margin-left: -0.5 * 1em * (1 - $top - $bottom) * $ratio;
       }
     }
   }
@@ -99,7 +99,8 @@ $carousel-types: (
       color: rgba(255, 255, 255, 0.8);
     }
 
-    .previous, .next {
+    .previous,
+    .next {
       height: 100%;
       width: 1.6em;
       position: absolute;
@@ -109,11 +110,19 @@ $carousel-types: (
     }
     .previous {
       left: 0;
-      background: linear-gradient(90deg, rgba(0, 0, 0, 0.333), rgba(0, 0, 0, 0));
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.333),
+        rgba(0, 0, 0, 0)
+      );
     }
     .next {
       right: 0;
-      background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.333));
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.333)
+      );
 
       i {
         right: 0;
@@ -182,5 +191,4 @@ $carousel-types: (
       pointer-events: auto;
     }
   }
-
 }

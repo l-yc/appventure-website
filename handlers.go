@@ -132,8 +132,16 @@ func (h *Handlers) static(w http.ResponseWriter, rq *http.Request, ps httprouter
 		return
 	}
   ext := filepath.Ext(fp)
-  mimeType := mime.TypeByExtension(ext)
-  w.Header().Set("Content-Type", mimeType)
+  log.Println(ext)
+  if ext == ".unityweb" {
+    //mimeType := "application/wasm"
+    //w.Header().Set("Content-Type", mimeType)
+    w.Header().Set("Content-Encoding", "gzip")
+    log.Println("overriding mimeType")
+  } else {
+    mimeType := mime.TypeByExtension(ext)
+    w.Header().Set("Content-Type", mimeType)
+  }
   w.Write(data)
 }
 
